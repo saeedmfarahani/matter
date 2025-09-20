@@ -61,6 +61,12 @@ int main(int, char *[]) {
     return EXIT_FAILURE;
   }
 
+  // Enable screencasting through xdg-desktop-portal-wlr
+  LLauncher::launch(
+      "dbus-update-activation-environment --systemd WAYLAND_DISPLAY "
+      "XDG_CURRENT_DESKTOP=wlroots | systemctl --user restart "
+      "xdg-desktop-portal");
+
   /* Main thread loop, use LCompositor::fd() to get a pollable fd if needed. */
   while (compositor.state() != LCompositor::Uninitialized)
     compositor.processLoop(-1);

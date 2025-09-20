@@ -43,6 +43,6 @@ void SessionLockManager::stateChanged() {
       break;
 
     /* The locking-client died, let's launch it again */
-    case DeadLocked: LLauncher::launch(SETTINGS_SESSION_LOCK_CLIENT); break;
+    case DeadLocked: break;
   }
 }
