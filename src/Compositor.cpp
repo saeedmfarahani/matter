@@ -18,7 +18,6 @@
 #include "input/Touch.h"
 #include "roles/CursorRole.h"
 #include "roles/DNDIconRole.h"
-#include "roles/LayerRole.h"
 #include "roles/PopupRole.h"
 #include "roles/SessionLockRole.h"
 #include "roles/SubsurfaceRole.h"
@@ -50,17 +49,6 @@ void Compositor::initialized() {
     addOutput(output);
     output->repaint();
   }
-
-  /* Sets a background wallpaper using swaybg */;
-  LLauncher::launch(
-      std::string("swaybg -m fill -i ") +
-      (compositor()->defaultAssetsPath() / "wallpaper.png").string());
-
-  /* Launches Waybar */;
-  LLauncher::launch("waybar");
-
-  /* Launches some bottom panel */
-  LLauncher::launch("sfwbar");
 }
 
 void Compositor::uninitialized() {

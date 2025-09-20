@@ -22,8 +22,6 @@
  * see the Keyboard class.
  */
 
-#define SETTINGS_SESSION_LOCK_CLIENT "gtklock"
-
 /*
  * SERVER-SIDE DECORATIONS
  */
@@ -62,6 +60,6 @@
  * Keyboard.
  */
 #define SETTINGS_SCENE_EVENT_OPTIONS \
-  LScene::WaylandEvents | LScene::AuxFunc | LScene::PointerConstraints
+  LScene::WaylandEvents | LScene::PointerConstraints
 
 #endif  // SETTINGS_H

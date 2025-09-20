@@ -7,6 +7,7 @@
 #include "../scene/Scene.h"
 #include "../utils/Global.h"
 #include "../utils/Settings.h"
+#include "LCompositor.h"
 
 Keyboard::Keyboard(const void *params) noexcept : LKeyboard(params) {
   /* Key press repeat rate */
@@ -23,11 +24,18 @@ Keyboard::Keyboard(const void *params) noexcept : LKeyboard(params) {
 void Keyboard::keyEvent(const LKeyboardKeyEvent &event) {
   /* The AuxFunc flag adds the Ctrl + Shift + ESC shortcut to quit, ensure
    * to add a way to exit if you remove it */
-  G::scene().handleKeyboardKeyEvent(event, SETTINGS_SCENE_EVENT_OPTIONS);
+  const bool L_CTRL{isKeyCodePressed(KEY_LEFTCTRL)};
+  const bool R_CTRL{isKeyCodePressed(KEY_RIGHTCTRL)};
+  const bool L_SHIFT{isKeyCodePressed(KEY_LEFTSHIFT)};
+  const bool L_ALT{isKeyCodePressed(KEY_LEFTALT)};
+  const bool mods{L_ALT || L_SHIFT || L_CTRL || R_CTRL};
 
-  /* Launches a session lock client */
-  if (sessionLockManager()->state() != LSessionLockManager::Locked &&
-      event.keyCode() == KEY_POWER &&
-      event.state() == LKeyboardKeyEvent::Released)
-    LLauncher::launch(SETTINGS_SESSION_LOCK_CLIENT);
+  G::scene().handleKeyboardKeyEvent(event, SETTINGS_SCENE_EVENT_OPTIONS);
+  if (event.state() == LKeyboardKeyEvent::Released) {
+    if (event.keyCode() == KEY_F1 && !mods) LLauncher::launch("ptyxis");
+    if (event.keyCode() == KEY_ESC && L_CTRL && L_SHIFT) {
+      compositor()->finish();
+      return;
+    }
+  }
 }
