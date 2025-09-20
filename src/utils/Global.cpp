@@ -1,22 +1,11 @@
 #include "Global.h"
+
 #include "../Compositor.h"
 
-Scene &G::scene() noexcept
-{
-    return compositor()->scene;
-}
+Scene &G::scene() noexcept { return compositor()->scene; }
 
-LayerView *G::layers() noexcept
-{
-    return scene().layers;
-}
+LayerView *G::layers() noexcept { return scene().layers; }
 
-Assets *G::assets() noexcept
-{
-    return compositor()->assets.get();
-}
+Assets *G::assets() noexcept { return compositor()->assets.get(); }
 
-Systemd *G::systemd() noexcept
-{
-    return compositor()->systemd.get();
-}
+Systemd *G::systemd() noexcept { return compositor()->systemd.get(); }

@@ -10,13 +10,12 @@ using namespace Louvre;
  *
  * See Pointer::setCursorRequest(), LClientCursor and LCursor.
  */
-class CursorRole final : public LCursorRole
-{
-public:
-    using LCursorRole::LCursorRole;
+class CursorRole final : public LCursorRole {
+ public:
+  using LCursorRole::LCursorRole;
 
-    /* Please refer to the documentation to explore all available
-     * virtual methods that can be overridden. */
+  /* Please refer to the documentation to explore all available
+   * virtual methods that can be overridden. */
 };
 
-#endif // CURSORROLE_H
+#endif  // CURSORROLE_H

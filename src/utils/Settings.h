@@ -32,7 +32,8 @@
 #define SETTINGS_SSD
 
 /* SSD titlebar/edges size */
-#define SETTINGS_SSD_EXTRA_GEOMETRY { .left = 8, .top = 20, .right = 8, .bottom = 8 }
+#define SETTINGS_SSD_EXTRA_GEOMETRY \
+  {.left = 8, .top = 20, .right = 8, .bottom = 8}
 
 /* SSD titlebar/edges color */
 #define SETTINGS_SSD_COLOR_ACTIVE {0.1f, 0.1f, 0.3f, 1.f}
@@ -47,16 +48,20 @@
 #define SETTINGS_DISABLE_WHILE_TYPING false
 
 /* These flags determine how the scene handles input events.
- * If no flags are set, the scene will simply dispatch events to the appropriate views.
+ * If no flags are set, the scene will simply dispatch events to the appropriate
+ * views.
  *
- * For example, if the WaylandEvents flag is set, the scene will also send input events
- * to clients using the default LPointer, LKeyboard or LTouch implementation.
+ * For example, if the WaylandEvents flag is set, the scene will also send input
+ * events to clients using the default LPointer, LKeyboard or LTouch
+ * implementation.
  *
- * If you want to handle client events yourself while still dispatching events to views,
- * remove all flags.
+ * If you want to handle client events yourself while still dispatching events
+ * to views, remove all flags.
  *
- * Note: The AuxFunc flag adds the Ctrl + Shift + Esc shortcut to quit. See Keyboard.
+ * Note: The AuxFunc flag adds the Ctrl + Shift + Esc shortcut to quit. See
+ * Keyboard.
  */
-#define SETTINGS_SCENE_EVENT_OPTIONS LScene::WaylandEvents | LScene::AuxFunc | LScene::PointerConstraints
+#define SETTINGS_SCENE_EVENT_OPTIONS \
+  LScene::WaylandEvents | LScene::AuxFunc | LScene::PointerConstraints
 
-#endif // SETTINGS_H
+#endif  // SETTINGS_H

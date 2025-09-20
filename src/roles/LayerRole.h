@@ -10,13 +10,12 @@ using namespace Louvre;
  * Refer to the documentation of the LExclusivZone class for more details.
  */
 
-class LayerRole final : public LLayerRole
-{
-public:
-    using LLayerRole::LLayerRole;
+class LayerRole final : public LLayerRole {
+ public:
+  using LLayerRole::LLayerRole;
 
-    /* Please refer to the documentation to explore all available
-     * virtual methods that can be overridden. */
+  /* Please refer to the documentation to explore all available
+   * virtual methods that can be overridden. */
 };
 
-#endif // LAYERROLE_H
+#endif  // LAYERROLE_H

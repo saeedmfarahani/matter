@@ -7,15 +7,14 @@ using namespace Louvre;
 
 /* Drag & drop session manager */
 
-class DND final : public LDND
-{
-public:
-    using LDND::LDND;
+class DND final : public LDND {
+ public:
+  using LDND::LDND;
 
-private:
-    void startDragRequest() override;
-    void cancelled() override;
-    void dropped() override;
+ private:
+  void startDragRequest() override;
+  void cancelled() override;
+  void dropped() override;
 };
 
-#endif // DND_H
+#endif  // DND_H
