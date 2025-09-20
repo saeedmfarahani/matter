@@ -12,7 +12,7 @@ SSD::SSD(ToplevelRole *toplevel) noexcept : LLayerView(), toplevel(toplevel) {
   toplevel->surf()->view.enableCustomPos(true);
   toplevel->surf()->view.setCustomPos(0, 0);
 
-  const LSize buttonsSize{8, 8};
+  const LSize buttonsSize{24, 24};
 
   close.setSize(buttonsSize);
   maximize.setSize(buttonsSize);

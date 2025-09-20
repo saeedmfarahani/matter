@@ -5,10 +5,25 @@
 #include <LSessionLockRole.h>
 
 #include "Compositor.h"
+#include "LOutputMode.h"
+#include "Output.h"
 #include "Surface.h"
+#include "roles/ToplevelRole.h"
 #include "utils/Global.h"
 
+Output::Output(const void *params) noexcept : LOutput(params) {
+  background.enableDstSize(true);
+  background.enableSrcRect(compositor()->graphicBackendId() ==
+                           LGraphicBackendWayland);
+  background.enablePointerEvents(true);
+  background.enableBlockPointer(true);
+  background.setTranslucentRegion(&LRegion::EmptyRegion());
+  background.setUserData(backgroundType);
+}
 void Output::initializeGL() {
+  background.setParent(&G::compositor()->scene.layers[0]);
+  backgroundUpdate();
+
   G::scene().handleInitializeGL(this);
 
   /* Fade-in animation example */
@@ -100,11 +115,77 @@ void Output::paintGL() {
   for (LScreenshotRequest *req : screenshotRequests()) req->accept(true);
 }
 
-void Output::moveGL() { G::scene().handleMoveGL(this); }
+void Output::moveGL() {
+  backgroundUpdate();
+  G::scene().handleMoveGL(this);
+}
 
-void Output::resizeGL() { G::scene().handleResizeGL(this); }
+void Output::resizeGL() {
+  backgroundUpdate();
+  G::scene().handleResizeGL(this);
+}
 
-void Output::uninitializeGL() { G::scene().handleUninitializeGL(this); }
+void Output::uninitializeGL() {
+  background.setParent(nullptr);
+  backgroundScaled.reset();
+  G::scene().handleUninitializeGL(this);
+}
+
+void Output::backgroundUpdate() noexcept {
+  background.setPos(pos());
+  background.setDstSize(size());
+
+  if (!G::textures()->background || size().area() == 0) return;
+
+  if (compositor()->graphicBackendId() == LGraphicBackendDRM) {
+    LSize bufferSize;
+
+    if (is90Transform(transform())) {
+      bufferSize.setW(currentMode()->sizeB().h());
+      bufferSize.setH(currentMode()->sizeB().w());
+    } else
+      bufferSize = currentMode()->sizeB();
+
+    if (backgroundScaled && backgroundScaled->sizeB() == bufferSize) return;
+
+    LRect srcB;
+    const Float32 w{
+        Float32(bufferSize.w() * G::textures()->background->sizeB().h()) /
+        Float32(bufferSize.h())};
+
+    /* Clip and scale the wallpaper texture */
+
+    if (w >= G::textures()->background->sizeB().w()) {
+      srcB.setX(0);
+      srcB.setW(G::textures()->background->sizeB().w());
+      srcB.setH((G::textures()->background->sizeB().w() * bufferSize.h()) /
+                bufferSize.w());
+      srcB.setY((G::textures()->background->sizeB().h() - srcB.h()) / 2);
+    } else {
+      srcB.setY(0);
+      srcB.setH(G::textures()->background->sizeB().h());
+      srcB.setW((G::textures()->background->sizeB().h() * bufferSize.w()) /
+                bufferSize.h());
+      srcB.setX((G::textures()->background->sizeB().w() - srcB.w()) / 2);
+    }
+    backgroundScaled.reset(G::textures()->background->copy(bufferSize, srcB));
+    background.setTexture(backgroundScaled.get());
+  } else {
+    background.setTexture(G::textures()->background);
+    const LSize &texSize{background.texture()->sizeB()};
+
+    const Int32 outputScaledHeight{(texSize.w() * size().h()) / size().w()};
+
+    if (outputScaledHeight >= G::textures()->background->sizeB().h()) {
+      const Int32 outputScaledWidth{(texSize.h() * size().w()) / size().h()};
+      background.setSrcRect(LRectF((texSize.w() - outputScaledWidth) / 2.f, 0.f,
+                                   outputScaledWidth, texSize.h()));
+    } else
+      background.setSrcRect(LRectF(0.f,
+                                   (texSize.h() - outputScaledHeight) / 2.f,
+                                   texSize.w(), outputScaledHeight));
+  }
+}
 
 void Output::setGammaRequest(LClient *client, const LGammaTable *gamma) {
   L_UNUSED(client)

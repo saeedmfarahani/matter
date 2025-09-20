@@ -34,6 +34,8 @@ void Compositor::initialized() {
   /* Configure already plugged input devices, check the Seat class */
   G::seat()->configureInputDevices();
 
+  G::loadTextures();
+
   Int32 totalWidth{0};
 
   // Initializes and arranges outputs from left to right

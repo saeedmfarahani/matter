@@ -13,6 +13,9 @@ class Assets;
 class Systemd;
 class Seat;
 
+enum ID {
+  backgroundType = 1,
+};
 /* This is just a utility for quick access to the Compositor members and
  * to prevent type casting all the time */
 class G {
@@ -29,6 +32,14 @@ class G {
   static LayerView *layers() noexcept;
   static Assets *assets() noexcept;
   static Systemd *systemd() noexcept;
+
+  // Textures
+  struct Textures {
+    LTexture *background{nullptr};
+  };
+  static Textures *textures();
+  static void loadTextures();
+  static void setTexViewConf(LTextureView *view, UInt32 index);
 };
 
 #endif  // GLOBAL_H

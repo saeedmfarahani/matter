@@ -3,6 +3,7 @@
 
 #include <LOutput.h>
 #include <LSolidColorView.h>
+#include <LTextureView.h>
 
 class Surface;
 
@@ -37,7 +38,7 @@ using namespace Louvre;
 class Output final : public LOutput {
  public:
   using LOutput::LOutput;
-
+  Output(const void *params) noexcept;
   /* Here you can initialize OpenGL ES 2.0 rendering toolkits, shaders, etc., if
    * needed, or use the painter() utility. We use LScene instead, which
    * efficiently renders views for you, repainting only damaged areas,
@@ -72,6 +73,10 @@ class Output final : public LOutput {
    * have created.
    */
   void uninitializeGL() override;
+
+  void backgroundUpdate() noexcept;
+  LTextureView background;
+  std::unique_ptr<LTexture> backgroundScaled;
 
   void setGammaRequest(LClient *client, const LGammaTable *gamma) override;
   void availableGeometryChanged() override;

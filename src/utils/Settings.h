@@ -31,10 +31,10 @@
 
 /* SSD titlebar/edges size */
 #define SETTINGS_SSD_EXTRA_GEOMETRY \
-  {.left = 8, .top = 20, .right = 8, .bottom = 8}
+  {.left = 1, .top = 50, .right = 1, .bottom = 1}
 
 /* SSD titlebar/edges color */
-#define SETTINGS_SSD_COLOR_ACTIVE {0.1f, 0.1f, 0.3f, 1.f}
+#define SETTINGS_SSD_COLOR_ACTIVE {0.1f, 0.1f, 0.1f, 1.f}
 #define SETTINGS_SSD_COLOR_INACTIVE {0.1f, 0.1f, 0.1f, 0.7f}
 
 /*

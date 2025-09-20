@@ -39,7 +39,7 @@ int main(int, char *[]) {
   setenv("GDK_BACKEND", "wayland", 1);
 
   /* The Wayland socket that apps started with LLauncher will listen to */
-  setenv("LOUVRE_WAYLAND_DISPLAY", "wayland-2", 0);
+  setenv("LOUVRE_WAYLAND_DISPLAY", "wayland-matter", 0);
 
   /* Starts an auxiliary daemon allowing shell commands to be run via
    * LLauncher::launch(). Note: If you decide not to use this daemon be careful
