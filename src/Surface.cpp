@@ -17,7 +17,8 @@ bool Surface::hasMappedChildSurface() const noexcept {
   return false;
 }
 
-void Surface::roleChanged() {
+void Surface::roleChanged(LBaseSurfaceRole *prevRole) {
+  (void)(prevRole);
   /* When a client assigns the LCursorRole to a surface, we use LCursor to
    * render it instead of the scene, so we hide the view here. See
    * Pointer::setCursorRequest() and the documentation for LClientCursor and

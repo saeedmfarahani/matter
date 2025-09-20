@@ -44,7 +44,7 @@ class Surface final : public LSurface {
   LView *getView() noexcept;
   bool hasMappedChildSurface() const noexcept;
 
-  void roleChanged() override;
+  void roleChanged(LBaseSurfaceRole *prevRole) override;
   void layerChanged() override;
   void orderChanged() override;
   void mappingChanged() override;

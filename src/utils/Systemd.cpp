@@ -35,20 +35,17 @@ Systemd::Systemd() noexcept {
     LLog::error("Failed to get bus file descriptor: %s\n", strerror(-busFd));
     goto failMatch;
   }
-
-  eventSource = G::compositor()->addFdListener(
-      busFd, this, [](Int32, UInt32, void *data) -> Int32 {
-        Systemd *systemd{static_cast<Systemd *>(data)};
-
-        Int32 ret;
-
-        while ((ret = sd_bus_process(systemd->bus, NULL) > 0)) {
+  eventSource = wl_event_loop_add_fd(
+      G::compositor()->eventLoop(), busFd, WL_EVENT_READABLE,
+      [](int, uint32_t, void *data) -> int {
+        Systemd *systemd = static_cast<Systemd *>(data);
+        int ret;
+        while ((ret = sd_bus_process(systemd->bus, nullptr)) > 0) {
         }
-
         if (ret < 0) LLog::error("Failed to process bus: %s", strerror(-ret));
-
         return 0;
-      });
+      },
+      this);
 
   restartXdgDesktopPortal();
   return;
@@ -60,8 +57,7 @@ failOpen:
 }
 
 Systemd::~Systemd() {
-  if (eventSource) G::compositor()->removeFdListener(eventSource);
-
+  if (eventSource) wl_event_source_remove(eventSource);
   if (bus) sd_bus_unref(bus);
 }
 
