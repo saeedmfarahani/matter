@@ -67,7 +67,7 @@ void SSDTouchable::pointerButtonEvent(const LPointerButtonEvent &event) {
              pos().x() + size().w() - ssd->toplevel->extraGeometry().right)
       ssd->toplevel->startResizeRequest(event, LEdgeRight | LEdgeTop);
     else if (cursor()->pos().y() <=
-             pos().y() + ssd->toplevel->extraGeometry().top / 4)
+             pos().y() + ssd->toplevel->extraGeometry().top / 4.0f)
       ssd->toplevel->startResizeRequest(event, LEdgeTop);
     else
       ssd->toplevel->startMoveRequest(event);
