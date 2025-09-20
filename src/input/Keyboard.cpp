@@ -15,10 +15,10 @@ Keyboard::Keyboard(const void *params) noexcept : LKeyboard(params) {
 
   /* Keymap sent to clients and used by the compositor, check the LKeyboard
    * class or XKB doc */
-  setKeymap(nullptr,   // Rules
-            nullptr,   // Model
-            nullptr,   // Layout
-            nullptr);  // Options
+  setKeymap(getenv("MATTER_KEY_RULES"),     // Rules
+            getenv("MATTER_KEY_MODEL"),     // Model
+            getenv("MATTER_KEY_LAYOUT"),    // Layout
+            getenv("MATTER_KEY_OPTIONS"));  // Options
 }
 
 void Keyboard::keyEvent(const LKeyboardKeyEvent &event) {
