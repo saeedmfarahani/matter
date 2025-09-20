@@ -1,15 +1,20 @@
-# Louvre Template
+# MATTER
 
-Documented template with many functionalities overridden to make it easy to modify.
+a compositor faster than macqueen!
 
-It launches swaybg, waybar, swfbar at startup, and the xdg-desktop-portal-wlr service for screencasting through PipeWire (if available). It also implements basic server-side decorations.
+## DEPENDENCY
+this project build on top of **Louvre compositor** and need it as dev dependency
+```sh
+yay -S louvre-devel-git &&
+```
+## SETUP
+```sh
+meson setup build
+```
+## BUILD 
+```sh
+meson compile -C build
+```
 
-**Shortcuts:**
-
-- `Ctrl + Shift + Esc` to Exit.
-- `F1` to launch weston-terminal.
-- `Power key` to lock the session with gtklock.
-
-For general configurations, check `utils/Settings.h`.
-
-For more details, please refer to the Louvre [Tutorial](https://cuarzosoftware.github.io/Louvre/tutorial_tmp.html) and [C++ API Documentation](https://cuarzosoftware.github.io/Louvre/annotated.html).
+## CREDITS
+- Louvre compositor
